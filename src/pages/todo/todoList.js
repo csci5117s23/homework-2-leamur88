@@ -9,17 +9,9 @@ import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
 import Link from 'next/link'
 
-const text = {
-	color: "black", 
-}
-
-const doneText = {
-	color: "gray",
-	textDecoration: "line-through"
-}
 
 // https://mui.com/material-ui/react-list/#checkbox
-export function TodoList({passedInList}) {
+export function TodoList({passedInList, defaultStyling, checkedStyling, uncheckedStyling}) {
 	const [checked, setChecked] = React.useState([]);
 	var initStyle = {}
 	for (var i = 0; i < passedInList.length; i++){
@@ -33,11 +25,11 @@ export function TodoList({passedInList}) {
 		var newStyling = {...styling}
 		if (currentIndex === -1) {
 			newChecked.push(listItemId);
-			newStyling[listItemId] = {...doneText}
+			newStyling[listItemId] = {...checkedStyling}
 			
 		} else {
 			newChecked.splice(currentIndex, 1);
-			newStyling[listItemId] = {...text}
+			newStyling[listItemId] = {...uncheckedStyling}
 		}
 		setStyling(newStyling)
 		setChecked(newChecked);
