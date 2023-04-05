@@ -23,7 +23,6 @@ export function TodoList({passedInList}) {
 	const [checked, setChecked] = React.useState([]);
 	var initStyle = {}
 	for (var i = 0; i < passedInList.length; i++){
-		console.log(passedInList[i])
 		initStyle[passedInList[i]['id']] = {...text}
 	}
 	const [styling, setStyling] = React.useState(initStyle)
@@ -43,8 +42,6 @@ export function TodoList({passedInList}) {
 		setStyling(newStyling)
 		setChecked(newChecked);
   };
-
-  console.log(styling)
 
 
 	return (
@@ -75,7 +72,7 @@ export function TodoList({passedInList}) {
 					</ListItemIcon>
 					
 					</ListItemButton>
-					<Link href="/"><ListItemText primaryTypographyProps={{style: styling[listItemId]}} id={labelId} primary={dict['text']} /></Link>
+					<Link href={`/todo/${listItemId}`}><ListItemText primaryTypographyProps={{style: styling[listItemId]}} id={labelId} primary={dict['text']} /></Link>
 				</ListItem>
 				);
 			})}
