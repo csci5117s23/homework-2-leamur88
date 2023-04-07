@@ -1,7 +1,7 @@
 import Head from "next/head"
-import { TodoList } from "./todoList"
-import Header from "./Header"
-import TodoInput from "./TodoInput"
+import { TodoList } from "../../components/todoList"
+import Header from "../../components/Header"
+import TodoInput from "../../components/TodoInput"
 import React, { useEffect, useState } from 'react';
 
 const uncheckedStyling = {

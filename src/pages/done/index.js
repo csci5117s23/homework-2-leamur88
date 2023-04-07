@@ -1,6 +1,6 @@
 import Head from "next/head"
-import { TodoList } from "../todo/todoList"
-import Header from "../todo/Header"
+import { TodoList } from "../../components/todoList"
+import Header from "../../components/Header"
 
 
 const uncheckedStyling = {
