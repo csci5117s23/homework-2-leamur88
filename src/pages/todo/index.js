@@ -43,7 +43,7 @@ export default function Home() {
 		// var [data, styling] = gatherListData()
 		var newId = dummyData.length + 1
 		//Add to todoList
-		dummyData.push({
+		dummyData.unshift({
 				"id": newId,
 				"text": text
 		})
