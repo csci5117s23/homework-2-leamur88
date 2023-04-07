@@ -12,38 +12,47 @@ const checkedStyling = {
 	textDecoration: "line-through"
 }
 
+const dummyData = [
+	{
+		"id": 0,
+		"text": "Item 1"
+	},
+	{
+		"id": 1,
+		"text": "Item 2"
+	},
+	{
+		"id": 2,
+		"text": "Item 3"
+	},
+	{
+		"id": 4,
+		"text": "Item 4"
+	}
+
+]
+
 export default function Home() {
+	const [data, styling] = gatherListData()
 	return (
 		<>
 			<Head>
 
 			</Head>
 			<Header />
-			<TodoList passedInList={gatherListData()} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling}>
+			<TodoList passedInList={data} defaultStyling={styling} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling}>
 
 			</TodoList>
 		</>	
 	)
 }
 
-function gatherListData () {
-	return [
-		{
-			"id": 0,
-			"text": "Item 1"
-		},
-		{
-			"id": 1,
-			"text": "Item 2"
-		},
-		{
-			"id": 2,
-			"text": "Item 3"
-		},
-		{
-			"id": 4,
-			"text": "Item 4"
-		}
 
-	]
+function gatherListData () {
+	var initStyle = {}
+	for (var i = 0; i < dummyData.length; i++){
+		initStyle[dummyData[i]['id']] = {...uncheckedStyling}
+	} 
+
+	return [dummyData, initStyle]
 }

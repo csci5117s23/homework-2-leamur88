@@ -13,11 +13,7 @@ import Link from 'next/link'
 // https://mui.com/material-ui/react-list/#checkbox
 export function TodoList({passedInList, defaultStyling, checkedStyling, uncheckedStyling}) {
 	const [checked, setChecked] = React.useState([]);
-	var initStyle = {}
-	for (var i = 0; i < passedInList.length; i++){
-		initStyle[passedInList[i]['id']] = {...text}
-	}
-	const [styling, setStyling] = React.useState(initStyle)
+	const [styling, setStyling] = React.useState(defaultStyling)
 
   	const handleToggle = (listItemId) => () => {
 		const currentIndex = checked.indexOf(listItemId);
@@ -41,6 +37,13 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 			{passedInList.map((dict) => {
 				const listItemId = dict['id']
 				const labelId = `checkbox-list-label-${listItemId}`;
+				console.log(listItemId, styling[listItemId])
+
+				if (styling[listItemId] === undefined){
+					var updatedStyle = {...styling}
+					updatedStyle[listItemId] = uncheckedStyling
+					setStyling(updatedStyle)
+				}
 
 				return (
 				<ListItem
