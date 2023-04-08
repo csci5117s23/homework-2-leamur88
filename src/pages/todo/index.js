@@ -34,42 +34,68 @@ const dummyData = [
 ]
 
 export default function Home() {
-	const initData = gatherInitialListData()
-	const styling = createDefaultStyle(initData)
-	const [todoData, setTodos] = useState(initData);
-	const [styleData, setStyle] = useState(styling);
+	
+	const [todoData, setTodos] = useState(null);
+	const [styleData, setStyle] = useState(null);
 
 	function addTodo( text ) {
 		// var [data, styling] = gatherListData()
-		var newId = dummyData.length + 1
-		//Add to todoList
-		dummyData.unshift({
-				"id": newId,
-				"text": text
-		})
+		var newId = todoData.length + 1
+		
 		//Retrieve todo list
-		var updatedList = [...dummyData]
-		var updatedStyle = {...styling}
+		var updatedList = [...todoData]
+		var updatedStyle = {...styleData}
+
+		//Add to todoList
+		updatedList.unshift({
+			"id": newId,
+			"text": text
+		})
 
 		updatedStyle[newId] = {...uncheckedStyling}
 
 		//update todoList
 		setTodos(updatedList)
 		setStyle(updatedStyle)
-		console.log(styleData, updatedStyle)
 	}
-	return (
-		<>
-			<Head>
 
-			</Head>
-			<Header />
-			<TodoInput addTodo={addTodo}/>
-			<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling}>
-
-			</TodoList>
-		</>	
-	)
+	const API_ENDPOINT = "https://backend-o9jo.api.codehooks.io/dev/todoItem"
+	const API_KEY = "29a392a9-b940-4416-886f-69308cf422ad"
+	const [loading, setLoading] = useState(true)
+	useEffect(() => {
+		const fetchData = async () => {
+		  const response = await fetch(API_ENDPOINT, {
+			'method':'GET',
+			'headers': {'x-apikey': API_KEY}
+		  })
+		  const data = await response.json()
+		  // update state -- configured earlier.
+		  console.log(data)
+		  setTodos(data);
+		  const styling = createDefaultStyle(data)
+		  setStyle(styling)
+		  setLoading(false);
+		}
+		fetchData();
+	  }, [])
+	  if (loading){
+		return (<span>LOADING ...</span>)
+	  }
+	  else{
+		return (
+			<>
+				<Head>
+	
+				</Head>
+				<Header />
+				<TodoInput addTodo={addTodo}/>
+				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling}>
+	
+				</TodoList>
+			</>	
+		)
+		}
+	
 }
 
 

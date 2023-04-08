@@ -37,13 +37,13 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 			{passedInList.map((dict) => {
 				const listItemId = dict['id']
 				const labelId = `checkbox-list-label-${listItemId}`;
-				console.log(listItemId, styling[listItemId])
+				// console.log(listItemId, styling[listItemId])
 
-				if (styling[listItemId] === undefined){
-					var updatedStyle = {...styling}
-					updatedStyle[listItemId] = uncheckedStyling
-					setStyling(updatedStyle)
-				}
+				// if (styling[listItemId] === undefined){
+				// 	var updatedStyle = {...styling}
+				// 	updatedStyle[listItemId] = uncheckedStyling
+				// 	setStyling(updatedStyle)
+				// }
 
 				return (
 				<ListItem
