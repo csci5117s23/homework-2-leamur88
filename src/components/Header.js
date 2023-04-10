@@ -92,13 +92,17 @@ export default function Header() {
 				display: { xs: 'block', md: 'none' },
 			}}
 			>
-			{pages.map((page) => (
+			{pages.map((page) => {
+				<>
 				<Link key={page + " Link"} href={`/${page}/`}>
 					<MenuItem key={page}>
 						<Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
 					</MenuItem>
 				</Link>
-			))}
+				</>
+				
+				
+  			})}
 			</Menu>
 		</Box>
 		<Typography
