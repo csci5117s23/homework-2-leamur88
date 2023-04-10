@@ -13,54 +13,50 @@ const checkedStyling = {
 	textDecoration: "line-through"
 }
 
-const dummyData = [
-	{
-		"id": 1,
-		"text": "Item 1"
-	},
-	{
-		"id": 2,
-		"text": "Item 2"
-	},
-	{
-		"id": 3,
-		"text": "Item 3"
-	},
-	{
-		"id": 4,
-		"text": "Item 4"
-	}
-
-]
-
 export default function Home() {
+	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
+	const API_KEY = " 0ddb5c05-243e-4493-9625-8dd18a1e59f7"
 	
 	const [todoData, setTodos] = useState(null);
 	const [styleData, setStyle] = useState(null);
 
-	function addTodo( text ) {
+	const addTodo = async (text) =>  {
 		// var [data, styling] = gatherListData()
-		var newId = todoData.length + 1
-		
-		//Retrieve todo list
-		var updatedList = [...todoData]
-		var updatedStyle = {...styleData}
+		var uploadData = {
+			"checked": "false",
+			"todo": text
+		}
+		await fetch(API_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'x-apikey': API_KEY,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(uploadData)
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+			const newId = data['_id']
+			//Retrieve todo list
+			var updatedList = [...todoData]
+			var updatedStyle = {...styleData}
 
-		//Add to todoList
-		updatedList.unshift({
-			"id": newId,
-			"text": text
+			//Add to todoList
+			updatedList.unshift({
+				"_id": newId,
+				"todo": text
+			})
+
+			updatedStyle[newId] = {...uncheckedStyling}
+
+			//update todoList
+			setTodos(updatedList)
+			setStyle(updatedStyle)
 		})
-
-		updatedStyle[newId] = {...uncheckedStyling}
-
-		//update todoList
-		setTodos(updatedList)
-		setStyle(updatedStyle)
 	}
 
-	const API_ENDPOINT = "https://backend-o9jo.api.codehooks.io/dev/todoItem"
-	const API_KEY = "29a392a9-b940-4416-886f-69308cf422ad"
+	
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchData = async () => {
@@ -70,6 +66,7 @@ export default function Home() {
 		  })
 		  const data = await response.json()
 		  // update state -- configured earlier.
+		  data.reverse()
 		  console.log(data)
 		  setTodos(data);
 		  const styling = createDefaultStyle(data)
@@ -103,14 +100,8 @@ export default function Home() {
 function createDefaultStyle(data) {
 	var initStyle = {}
 	for (var i = 0; i < data.length; i++){
-		initStyle[data[i]['id']] = {...uncheckedStyling}
+		initStyle[data[i]['_id']] = {...uncheckedStyling}
 	} 
 	return initStyle
 }
 
-
-
-
-function gatherInitialListData () {
-	return dummyData
-}

@@ -35,7 +35,7 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 	return (
 		<List sx={{ width: '100%', bgcolor: 'background.paper' }}>
 			{passedInList.map((dict) => {
-				const listItemId = dict['id']
+				const listItemId = dict['_id']
 				const labelId = `checkbox-list-label-${listItemId}`;
 				// console.log(listItemId, styling[listItemId])
 
@@ -67,7 +67,7 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 					</ListItemIcon>
 					
 					</ListItemButton>
-					<Link href={`/todo/${listItemId}`}><ListItemText primaryTypographyProps={{style: styling[listItemId]}} id={labelId} primary={dict['text']} /></Link>
+					<Link href={`/todo/${listItemId}`}><ListItemText primaryTypographyProps={{style: styling[listItemId]}} id={labelId} primary={dict['todo']} /></Link>
 				</ListItem>
 				);
 			})}
