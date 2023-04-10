@@ -3,6 +3,7 @@ import { TodoList } from "@/components/todoList"
 import Header from "@/components/Header"
 import TodoInput from "@/components/TodoInput"
 import React, { useEffect, useState } from 'react';
+import Section from "@/components/Section";
 
 const uncheckedStyling = {
 	color: "black", 
@@ -12,6 +13,8 @@ const checkedStyling = {
 	color: "gray",
 	textDecoration: "line-through"
 }
+
+const todoMessages = ["Looks like you still have quite a few things to do..."]
 
 export default function Home() {
 	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
@@ -89,6 +92,7 @@ export default function Home() {
 	
 				</Head>
 				<Header />
+				<Section textOptions={todoMessages} />
 				<TodoInput addTodo={addTodo}/>
 				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling} validEntry={validEntry}>
 	

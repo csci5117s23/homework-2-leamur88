@@ -2,6 +2,7 @@ import Head from "next/head"
 import { TodoList } from "../../components/todoList"
 import Header from "../../components/Header"
 import React, { useEffect, useState } from 'react';
+import Section from "@/components/Section";
 
 
 const uncheckedStyling = {
@@ -12,6 +13,8 @@ const checkedStyling = {
 	color: "gray",
 	textDecoration: "line-through"
 }
+
+const doneMessages = ["Look at all you've accomplished!"]
 
 export default function Home() {
 	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
@@ -52,6 +55,7 @@ export default function Home() {
 	
 				</Head>
 				<Header />
+				<Section textOptions={doneMessages} />
 				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling} validEntry={validEntry}>
 	
 				</TodoList>
