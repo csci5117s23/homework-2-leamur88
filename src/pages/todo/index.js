@@ -1,7 +1,7 @@
 import Head from "next/head"
-import { TodoList } from "../../components/todoList"
-import Header from "../../components/Header"
-import TodoInput from "../../components/TodoInput"
+import { TodoList } from "@/components/todoList"
+import Header from "@/components/Header"
+import TodoInput from "@/components/TodoInput"
 import React, { useEffect, useState } from 'react';
 
 const uncheckedStyling = {
@@ -20,6 +20,10 @@ export default function Home() {
 	const [todoData, setTodos] = useState(null);
 	const [styleData, setStyle] = useState(null);
 
+	function validEntry(dict){
+		return "false" === dict["checked"]
+	}
+
 	const addTodo = async (text) =>  {
 		// var [data, styling] = gatherListData()
 		var uploadData = {
@@ -36,7 +40,6 @@ export default function Home() {
 		}).then((response) => {
 			return response.json()
 		}).then((data) => {
-			console.log(data)
 			const newId = data['_id']
 			//Retrieve todo list
 			var updatedList = [...todoData]
@@ -45,6 +48,7 @@ export default function Home() {
 			//Add to todoList
 			updatedList.unshift({
 				"_id": newId,
+				"checked": "false",
 				"todo": text
 			})
 
@@ -86,7 +90,7 @@ export default function Home() {
 				</Head>
 				<Header />
 				<TodoInput addTodo={addTodo}/>
-				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling}>
+				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling} validEntry={validEntry}>
 	
 				</TodoList>
 			</>	
@@ -94,6 +98,7 @@ export default function Home() {
 		}
 	
 }
+
 
 
 

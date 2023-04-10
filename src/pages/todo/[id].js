@@ -1,10 +1,18 @@
 import { useRouter } from 'next/router'
-
+import Head from "next/head"
+import Header from '@/components/Header'
 export default function TodoItem({TodoItemDict}){
   const router = useRouter()
   const { id } = router.query
   console.log(TodoItemDict)
-  return <p>TODOItem: {TodoItemDict["todo"]}</p>
+  return (<>
+	<Head>
+
+	</Head>
+	<Header />
+	<p>TODOItem: {TodoItemDict["todo"]}</p>
+	</>
+	)
 }
 
 
