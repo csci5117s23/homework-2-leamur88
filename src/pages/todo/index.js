@@ -4,6 +4,7 @@ import Header from "@/components/Header"
 import TodoInput from "@/components/TodoInput"
 import React, { useEffect, useState } from 'react';
 import Section from "@/components/Section";
+import Loading from "@/components/Loading";
 
 const uncheckedStyling = {
 	color: "black", 
@@ -14,7 +15,10 @@ const checkedStyling = {
 	textDecoration: "line-through"
 }
 
-const todoMessages = ["Looks like you still have quite a few things to do..."]
+const todoMessages = [
+	"Looks like you still have quite a few things to do...", "Lets get some of these things done today!",
+	"Yikes, and I thought I was falling behind...", "I'd pretend to be motivational, but if all these tasks can't motivate you I don't know what will"
+]
 
 export default function Home() {
 	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
@@ -83,7 +87,15 @@ export default function Home() {
 		fetchData();
 	  }, [])
 	  if (loading){
-		return (<span>LOADING ...</span>)
+		return (
+			<>
+			<Head>
+
+			</Head>
+			<Header />
+			<Loading />
+		</>	
+		)
 	  }
 	  else{
 		return (

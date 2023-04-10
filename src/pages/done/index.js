@@ -1,6 +1,7 @@
 import Head from "next/head"
-import { TodoList } from "../../components/todoList"
-import Header from "../../components/Header"
+import { TodoList } from "@/components/todoList"
+import Header from "@/components/Header"
+import Loading from "@/components/Loading"
 import React, { useEffect, useState } from 'react';
 import Section from "@/components/Section";
 
@@ -14,7 +15,10 @@ const checkedStyling = {
 	textDecoration: "line-through"
 }
 
-const doneMessages = ["Look at all you've accomplished!"]
+const doneMessages = [
+	"Look at all you've accomplished!", "Keep up the great work!", 
+	"I hope you didn't check any of these off by mistake...", "WOHOOOOOO!"
+]
 
 export default function Home() {
 	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
@@ -46,7 +50,14 @@ export default function Home() {
 		fetchData();
 	  }, [])
 	  if (loading){
-		return (<span>LOADING ...</span>)
+		return (			
+		<>
+			<Head>
+
+			</Head>
+			<Header />
+			<Loading />
+		</>	)
 	  }
 	  else{
 		return (
