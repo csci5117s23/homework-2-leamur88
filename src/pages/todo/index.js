@@ -5,6 +5,7 @@ import TodoInput from "@/components/TodoInput"
 import React, { useEffect, useState } from 'react';
 import Section from "@/components/Section";
 import Loading from "@/components/Loading";
+import { useAuth } from "@clerk/nextjs";
 
 const uncheckedStyling = {
 	color: "black", 
@@ -26,6 +27,7 @@ export default function Home() {
 	
 	const [todoData, setTodos] = useState(null);
 	const [styleData, setStyle] = useState(null);
+	const { isLoaded, userId, sessionId, getToken } = useAuth();
 
 	function validEntry(dict){
 		return "false" === dict["checked"]
@@ -71,6 +73,11 @@ export default function Home() {
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchData = async () => {
+			if (userId){
+				const token = await getToken({template: "todoListTemplate"})
+				console.log("USER:", userId)
+				console.log("Token:", token)
+			}
 		  const response = await fetch(API_ENDPOINT, {
 			'method':'GET',
 			'headers': {'x-apikey': API_KEY}
