@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 const pages = ['todo', 'done', 'logout'];
@@ -17,6 +18,7 @@ const pages = ['todo', 'done', 'logout'];
 // https://betterprogramming.pub/building-a-basic-header-with-materialui-and-react-js-d650f75b4b0a
 
 export default function Header() {
+	const pathname  = useRouter().pathname.slice(1);
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 
 	const handleOpenNavMenu = (event) => {
@@ -48,18 +50,37 @@ export default function Header() {
 			TodoList!
 		</Typography>
 		<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} justifyContent="flex-end">
-			{pages.map((page) => (
-				<Link key={"Linkto" + page} href={"/" + page}>
-					<Button
-					end='right'
-					key={page}
-					sx={{ my: 2, color: 'white', display: 'block' }}
-				>
-					{page}
-				</Button>
-				</Link>
+			{pages.map((page) => {
+				if (page === pathname){
+					return(
+						<Link key={"Linkto" + page} href={"/" + page}>
+							<Button
+							end='right'
+							key={page}
+							sx={{ my: 2, color: 'orange', display: 'block', textDecoration: 'underline' }}
+							>
+								{page}
+							</Button>
+						</Link>
+					)
+					
+				}
+				else{
+					return(
+						<Link key={"Linkto" + page} href={"/" + page}>
+							<Button
+							end='right'
+							key={page}
+							sx={{ my: 2, color: 'white', display: 'block'}}
+							>
+								{page}
+							</Button>
+						</Link>
+					)
+				}
+				
 			
-			))}
+  		})}
 		</Box>
 
 		
@@ -95,15 +116,13 @@ export default function Header() {
 			}}
 			>
 			{pages.map((page) => {
-				<>
+				return(
 				<Link key={page + " Link"} href={`/${page}/`}>
 					<MenuItem key={page}>
 						<Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
 					</MenuItem>
 				</Link>
-				</>
-				
-				
+				)
   			})}
 			</Menu>
 		</Box>
