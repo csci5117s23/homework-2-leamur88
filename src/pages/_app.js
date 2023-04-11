@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
-
+import Home from '.';
 const publicPages = ["/", "/login", "/logout"];
 
 
@@ -9,7 +9,8 @@ const publicPages = ["/", "/login", "/logout"];
 
 
 export default function App({ Component, pageProps }) {
-	const pathname  = useRouter().pathname;
+	const router = useRouter();
+	const pathname  = router.pathname;
 
 	const isPublicPage = publicPages.includes(pathname);
 	return (
@@ -22,7 +23,7 @@ export default function App({ Component, pageProps }) {
 				<Component {...pageProps} />
 				</SignedIn>
 				<SignedOut>
-				<RedirectToSignIn />
+				<Home />
 				</SignedOut>
 
 			</>

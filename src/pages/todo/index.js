@@ -24,7 +24,6 @@ const todoMessages = [
 const API_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
 export default function Home() {
-	const API_KEY = " 0ddb5c05-243e-4493-9625-8dd18a1e59f7"
 	
 	const [todoData, setTodos] = useState(null);
 	const [styleData, setStyle] = useState(null);
@@ -40,8 +39,7 @@ export default function Home() {
 		// const token = await getToken({template: "todoListTemplate"})
 		var uploadData = {
 			"checked": "false",
-			"todo": text,
-			"userId": userId
+			"todo": text
 		}
 		await fetch(API_ENDPOINT + "todoItem", {
 			method: 'POST',
@@ -79,7 +77,7 @@ export default function Home() {
 		const fetchData = async () => {
 			const token = await getToken({template: "todoListTemplate"})
 			setToken(token)
-			const response = await fetch(API_ENDPOINT + "todoItem" + "?userId=" + userId, {
+			const response = await fetch(API_ENDPOINT + "todoItem", {
 			'method':'GET',
 			'headers': {'Authorization': 'Bearer ' + token}
 		  })
