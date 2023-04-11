@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 
 
 export default function Section({textOptions}){
-	console.log("In Section", textOptions[getRandom(textOptions.length)])
 	return(
 		<>
 		<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} justifyContent={"center"}>

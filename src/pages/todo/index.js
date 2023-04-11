@@ -21,12 +21,14 @@ const todoMessages = [
 	"Yikes, and I thought I was falling behind...", "I'd pretend to be motivational, but if all these tasks can't motivate you I don't know what will"
 ]
 
+const API_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+
 export default function Home() {
-	const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem"
 	const API_KEY = " 0ddb5c05-243e-4493-9625-8dd18a1e59f7"
 	
 	const [todoData, setTodos] = useState(null);
 	const [styleData, setStyle] = useState(null);
+	const [userToken, setToken] = useState(null);
 	const { isLoaded, userId, sessionId, getToken } = useAuth();
 
 	function validEntry(dict){
@@ -34,15 +36,17 @@ export default function Home() {
 	}
 
 	const addTodo = async (text) =>  {
-		// var [data, styling] = gatherListData()
+		
+		// const token = await getToken({template: "todoListTemplate"})
 		var uploadData = {
 			"checked": "false",
-			"todo": text
+			"todo": text,
+			"userId": userId
 		}
-		await fetch(API_ENDPOINT, {
+		await fetch(API_ENDPOINT + "todoItem", {
 			method: 'POST',
 			headers: {
-				'x-apikey': API_KEY,
+				'Authorization': 'Bearer ' + userToken,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(uploadData)
@@ -73,14 +77,11 @@ export default function Home() {
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchData = async () => {
-			if (userId){
-				const token = await getToken({template: "todoListTemplate"})
-				console.log("USER:", userId)
-				console.log("Token:", token)
-			}
-		  const response = await fetch(API_ENDPOINT, {
+			const token = await getToken({template: "todoListTemplate"})
+			setToken(token)
+			const response = await fetch(API_ENDPOINT + "todoItem", {
 			'method':'GET',
-			'headers': {'x-apikey': API_KEY}
+			'headers': {'Authorization': 'Bearer ' + token}
 		  })
 		  const data = await response.json()
 		  // update state -- configured earlier.
@@ -113,7 +114,7 @@ export default function Home() {
 				<Header />
 				<Section textOptions={todoMessages} />
 				<TodoInput addTodo={addTodo}/>
-				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling} validEntry={validEntry}>
+				<TodoList passedInList={todoData} defaultStyling={styleData} checkedStyling={checkedStyling} uncheckedStyling={uncheckedStyling} validEntry={validEntry} EmptyMessage={"Looks like you need some things to do, maybe you should add something..."} token={userToken}>
 	
 				</TodoList>
 			</>	

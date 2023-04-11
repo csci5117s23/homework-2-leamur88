@@ -3,7 +3,10 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { Button } from "@mui/material";
 
-
+const potentialTodoItems = [
+	"Take out the trash", "Do the laundry", 
+	"Go grocery shopping", "Give this student an A"
+]
 
  
 export default function TodoInput ({ addTodo }){
@@ -38,7 +41,7 @@ export default function TodoInput ({ addTodo }){
 			value={text}
 			rows={4}
 			onChange={(e) => setText(e.target.value)}
-			placeholder="Take out the trash"
+			placeholder={potentialTodoItems[getRandom(potentialTodoItems.length)]}
 		/>
 		<Button onClick={handleSubmit} variant={"contained"}>
 			Add Todo!
@@ -48,3 +51,8 @@ export default function TodoInput ({ addTodo }){
 	
   );
 };
+
+
+function getRandom(n){
+	return Math.floor(Math.random() * n);
+}

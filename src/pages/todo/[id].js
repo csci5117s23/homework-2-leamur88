@@ -1,44 +1,57 @@
 import { useRouter } from 'next/router'
 import Head from "next/head"
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header'
-export default function TodoItem({TodoItemDict}){
-  const router = useRouter()
-  const { id } = router.query
-  console.log(TodoItemDict)
-  return (<>
-	<Head>
+import { useAuth } from "@clerk/nextjs";
+import Loading from '@/components/Loading';
 
-	</Head>
-	<Header />
-	<p>TODOItem: {TodoItemDict["todo"]}</p>
-	</>
-	)
+
+
+export default function TodoItem({params}){
+	const { isLoaded, userId, sessionId, getToken } = useAuth();
+	const router = useRouter()
+	const { id } = router.query
+
+	const [loading, setLoading] = useState(true)
+	const [todoItem, setTodoItem] = useState(null)
+	useEffect(() => {
+		const fetchData = async () => {
+			const token = await getToken({template: "todoListTemplate"})
+			const response = await fetch(API_ENDPOINT + "todoItem/" + id, {
+				'method':'GET',
+				'headers': {'Authorization': 'Bearer ' + token}
+		  	})
+		  const data = await response.json()
+		  // update state -- configured earlier.
+		  console.log(data)
+		  setTodoItem(data["todo"])
+		  setLoading(false)
+		}
+		fetchData();
+	}, [])
+	if (loading){
+		return (
+			<>
+				<Head>
+
+				</Head>
+				<Header />
+				<Loading />
+			</>	
+		)
+	  }else {
+		return (
+			<>
+				<Head>
+			
+				</Head>
+				<Header />
+				<p>TODOItem: {todoItem}</p>
+			</>
+		)
+	  }
+  
 }
 
+const API_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
- 
-export async function getStaticProps({params}) {
-	const API_ENDPOINT = `https://backend-9v7v.api.codehooks.io/dev/todoItem/${params.id}`
-	// const API_ENDPOINT = "https://backend-9v7v.api.codehooks.io/dev/todoItem/64338efbf1f0a36eedd2c274"
-	console.log("hello", API_ENDPOINT)
-	const API_KEY = " 0ddb5c05-243e-4493-9625-8dd18a1e59f7"
-
-	
-	const response = await fetch(API_ENDPOINT, {
-		'method':'GET',
-		'headers': {'x-apikey': API_KEY}
-	})
-	const data = await response.json();
-	return {
-		props: { TodoItemDict: data },
-	};
-	
-}
-
-// https://stackoverflow.com/questions/65783199/error-getstaticpaths-is-required-for-dynamic-ssg-pages-and-is-missing-for-xxx
-export async function getStaticPaths() {
-    return {
-        paths: [], //indicates that no page needs be created at build time
-        fallback: 'blocking' //indicates the type of fallback
-    }
-}

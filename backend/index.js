@@ -11,6 +11,7 @@ import { date, object, string } from 'yup';
 const todoItem = object({
     todo: string().required(),
     checked: string().required(),
+	userId: string().required(),
     createdOn: date().default(() => new Date()),
 })
 crudlify(app, {todoItem: todoItem})

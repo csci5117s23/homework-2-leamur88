@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 
-const publicPages = ["/"];
+const publicPages = ["/", "/login", "/logout"];
 
 
 

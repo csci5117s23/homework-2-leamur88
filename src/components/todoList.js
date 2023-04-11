@@ -8,15 +8,18 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Link from 'next/link'
+import { Box, Typography } from "@mui/material";
+import { useAuth } from "@clerk/nextjs";
 
-async function updateCheck (body, listItemId) {
-	const API_ENDPOINT = `https://backend-9v7v.api.codehooks.io/dev/todoItem/${listItemId}`
-	const API_KEY = " 0ddb5c05-243e-4493-9625-8dd18a1e59f7"
 
-	await fetch(API_ENDPOINT, {
+const API_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+
+
+async function updateCheck (body, listItemId, token) {
+	await fetch(API_ENDPOINT + "todoItem/" + listItemId, {
 		method: 'PATCH',
 		headers: {
-			'x-apikey': API_KEY,
+			'Authorization': 'Bearer ' + token,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(body)
@@ -29,7 +32,7 @@ async function updateCheck (body, listItemId) {
 
 
 // https://mui.com/material-ui/react-list/#checkbox
-export function TodoList({passedInList, defaultStyling, checkedStyling, uncheckedStyling, validEntry}) {
+export function TodoList({passedInList, defaultStyling, checkedStyling, uncheckedStyling, validEntry, EmptyMessage, token}) {
 
 	const initChecked = passedInList.filter((dict) => {
 		return dict["checked"] === "true"
@@ -47,21 +50,59 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 		if (currentIndex === -1) {
 			updateCheck({
 				"checked": "true"
-			}, listItemId);
+			}, listItemId, token);
 			newChecked.push(listItemId);
 			newStyling[listItemId] = {...checkedStyling}
 			
 		} else {
 			updateCheck({
 				"checked": "false"
-			}, listItemId);
+			}, listItemId, token);
 			newChecked.splice(currentIndex, 1);
 			newStyling[listItemId] = {...uncheckedStyling}
 		}
 		setStyling(newStyling)
 		setChecked(newChecked);
   };
-
+  	if (passedInList.length === 0){
+		return (
+			<>
+				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} justifyContent={"center"}>
+				<Typography
+					variant="h5"
+					noWrap
+					textAlign="center"
+					sx={{
+						my: 2,
+						fontFamily: 'monospace',
+						fontWeight: 650,
+					}}
+				>
+					{EmptyMessage}
+				</Typography>
+			</Box>
+			<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} justifyContent={"center"}>
+				<Typography
+				variant="h6"
+				
+				textAlign="center"
+				sx={{
+					my: 2,
+					mr: 1,
+					ml: 1,
+					flexGrow: 1,
+					fontFamily: 'monospace',
+					fontWeight: 700,
+					letterSpacing: '.3rem',
+					color: 'inherit',
+				}}
+				>
+				{EmptyMessage}
+				</Typography>
+			</Box>
+		</>
+		)
+	}
 
 	return (
 		<List sx={{ width: '100%', bgcolor: 'background.paper' }}>
