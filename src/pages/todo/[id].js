@@ -59,7 +59,7 @@ export default function TodoItem({params}){
 			},
 			body: JSON.stringify(body)
 		}).then(() => {
-			if (checked === "true"){
+			if (checked){
 				router.push("/done")
 			} else{
 				router.push("/todo")
