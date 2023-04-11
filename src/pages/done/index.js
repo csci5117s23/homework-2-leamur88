@@ -42,7 +42,7 @@ export default function Home() {
 		const fetchData = async () => {
 		const token = await getToken({template: "todoListTemplate"})
 		setToken(token)
-		const response = await fetch(API_ENDPOINT + "todoItem", {
+		const response = await fetch(API_ENDPOINT + "todoItem" + "?userId=" + userId, {
 			'method':'GET',
 			'headers': {'Authorization': 'Bearer ' + token}
 		  })

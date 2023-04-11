@@ -49,14 +49,16 @@ export default function Header() {
 		</Typography>
 		<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} justifyContent="flex-end">
 			{pages.map((page) => (
-			<Button
-				end='right'
-				key={page}
-				href={`/${page}/`}
-				sx={{ my: 2, color: 'white', display: 'block' }}
-			>
-				{page}
-			</Button>
+				<Link key={"Linkto" + page} href={"/" + page}>
+					<Button
+					end='right'
+					key={page}
+					sx={{ my: 2, color: 'white', display: 'block' }}
+				>
+					{page}
+				</Button>
+				</Link>
+			
 			))}
 		</Box>
 

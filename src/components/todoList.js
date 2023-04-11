@@ -9,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Link from 'next/link'
 import { Box, Typography } from "@mui/material";
-import { useAuth } from "@clerk/nextjs";
 
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
@@ -64,7 +63,7 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 		setStyling(newStyling)
 		setChecked(newChecked);
   };
-  	if (passedInList.length === 0){
+  	if (checkForAnyValid(passedInList, validEntry)){
 		return (
 			<>
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} justifyContent={"center"}>
@@ -141,4 +140,17 @@ export function TodoList({passedInList, defaultStyling, checkedStyling, unchecke
 			})}
 		</List>
 	);
+}
+
+function checkForAnyValid(list, validEntry){
+	if (list.length === 0){
+		return true
+	}
+	const filtered = list.filter((dict) => {
+		return validEntry(dict)
+	})
+	if (filtered.length === 0){
+		return true
+	}
+	return false
 }
