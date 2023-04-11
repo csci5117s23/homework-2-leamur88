@@ -7,6 +7,7 @@ import Loading from '@/components/Loading';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { Button } from "@mui/material";
+import NotFound from '../404';
 
 
 
@@ -95,83 +96,92 @@ export default function TodoItem({params}){
 				<Loading />
 			</>	
 		)
-	  }else {
-		return (
-			<>
-				<Head>
-			
-				</Head>
-				<Header />
-				<Box
-					component="form"
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					flexDirection="column"
-					sx={{
-						'& > :not(style)': { m: 1, width: '50%' },
-					}}
-					noValidate
-					autoComplete="off"
-				>
-					{checked ? (
-						<Button onClick={updateCheck} variant={"outlined"} color="success">
-							This Item is currently done, click me to change that!
-						</Button>
-						) : (
-						<Button onClick={updateCheck} variant={"outlined"} color="error">
-							This Item is NOT done, click me to change that!
-						</Button>
-					)}
-					
-					
-				</Box>
+	}
+	else {
+		if (!todoItem){
+			return(
+				<>
+					<NotFound />
+				</>
+			)
+		}else{
+			return (
+				<>
+					<Head>
 				
-				<Box
-					component="form"
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					flexDirection="column"
-					sx={{
-						'& > :not(style)': { m: 1, width: '50%' },
-					}}
-					noValidate
-					autoComplete="off"
-				>
-
-					<TextField
-						variant="filled"
-						label="Update Todo..."
-						multiline
-						value={todoItem}
-						rows={4}
-						width="50%"
-						onChange={(e) => setTodoItem(e.target.value)}
-					/>
+					</Head>
+					<Header />
+					<Box
+						component="form"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						flexDirection="column"
+						sx={{
+							'& > :not(style)': { m: 1, width: '50%' },
+						}}
+						noValidate
+						autoComplete="off"
+					>
+						{checked ? (
+							<Button onClick={updateCheck} variant={"outlined"} color="success">
+								This Item is currently done, click me to change that!
+							</Button>
+							) : (
+							<Button onClick={updateCheck} variant={"outlined"} color="error">
+								This Item is NOT done, click me to change that!
+							</Button>
+						)}
+						
+						
+					</Box>
 					
+					<Box
+						component="form"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						flexDirection="column"
+						sx={{
+							'& > :not(style)': { m: 1, width: '50%' },
+						}}
+						noValidate
+						autoComplete="off"
+					>
 
-				</Box>
-				<Box
-					component="form"
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					flexDirection="column"
-					sx={{
-						'& > :not(style)': { m: 1, width: '25%' },
-					}}
-					noValidate
-					autoComplete="off"
-				>
-					<Button onClick={handleSubmit} variant={"contained"}>
-						Save Changes
-					</Button>
-				</Box>
-				
-			</>
-		)
-	  }
+						<TextField
+							variant="filled"
+							label="Update Todo..."
+							multiline
+							value={todoItem}
+							rows={4}
+							width="50%"
+							onChange={(e) => setTodoItem(e.target.value)}
+						/>
+						
+
+					</Box>
+					<Box
+						component="form"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						flexDirection="column"
+						sx={{
+							'& > :not(style)': { m: 1, width: '25%' },
+						}}
+						noValidate
+						autoComplete="off"
+					>
+						<Button onClick={handleSubmit} variant={"contained"}>
+							Save Changes
+						</Button>
+					</Box>
+					
+				</>
+			)
+		}
+	}
   
 }
 
