@@ -116,13 +116,24 @@ export default function Header() {
 			}}
 			>
 			{pages.map((page) => {
-				return(
-				<Link key={page + " Link"} href={`/${page}/`}>
-					<MenuItem key={page}>
-						<Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
-					</MenuItem>
-				</Link>
-				)
+				if (page === pathname){
+					return(
+						<Link key={page + " Link"} href={`/${page}/`}>
+							<MenuItem sx={{background: "orange"}} key={page}>
+								<Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
+							</MenuItem>
+						</Link>
+					)
+				} else{
+					return(
+						<Link key={page + " Link"} href={`/${page}/`}>
+							<MenuItem key={page}>
+								<Typography textAlign="center">{page.charAt(0).toUpperCase() + page.slice(1)}</Typography>
+							</MenuItem>
+						</Link>
+					)
+				}
+				
   			})}
 			</Menu>
 		</Box>
