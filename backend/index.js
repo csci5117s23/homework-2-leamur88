@@ -26,7 +26,6 @@ app.use(userAuth)
 app.use('/todoItem', (req, res, next) => {
     if (req.method === "POST") {
         req.body.userId = req.user_token.sub
-		console.log("BODY", req.body)
     } else if (req.method === "GET") {
         req.query.userId = req.user_token.sub
     }
@@ -46,7 +45,6 @@ app.use('/todoItem/:id', async (req, res, next) => {
             return
         }
     } catch (e) {
-        console.log(e);
         // the document doesn't exist.
         res.status(404).end(e);
         return;

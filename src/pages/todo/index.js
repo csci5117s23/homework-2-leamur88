@@ -84,7 +84,6 @@ export default function Home() {
 		  const data = await response.json()
 		  // update state -- configured earlier.
 		  data.reverse()
-		  console.log(data)
 		  setTodos(data);
 		  const styling = createDefaultStyle(data)
 		  setStyle(styling)

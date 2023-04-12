@@ -32,8 +32,6 @@ export default function TodoItem({params}){
 				"checked": "true"
 			}
 		}
-		console.log("Checked", checked)
-		console.log("Body!", body)
 		
 		await fetch(API_ENDPOINT + "todoItem/" + id, {
 			method: 'PATCH',
@@ -79,7 +77,6 @@ export default function TodoItem({params}){
 		  	})
 		  const data = await response.json()
 		  // update state -- configured earlier.
-		  console.log(data)
 		  setTodoItem(data["todo"])
 		  setChecked(data["checked"] === "true")
 		  setLoading(false)
